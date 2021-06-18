@@ -1,6 +1,13 @@
 ﻿@page "/videos"
 @inject HttpClient Http
 
+@if (!string.IsNullOrEmpty(username))
+{
+    <div style="width: 100%; text-align: right">
+        <a href="/.auth/logout">Click here to log out @username.</a>
+    </div>
+}
+
 <h1>Our videos</h1>
 
 @if (videos == null)
