@@ -1,0 +1,40 @@
+﻿@page "/videos"
+@inject HttpClient Http
+
+<h1>Our videos</h1>
+
+@if (videos == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Title</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var video in videos)
+            {
+                <tr>
+                    <td>Betatalks #@video.Name</td>
+                    <td><a href="@video.Url">@video.Title</a></td>
+                    <td>@((MarkupString)video.Description)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private Video[] videos;
+
+    protected override async Task OnInitializedAsync()
+    {
+        videos = await Http.GetFromJsonAsync<Video[]>("api/videos/betatalks");
+    }
+}
