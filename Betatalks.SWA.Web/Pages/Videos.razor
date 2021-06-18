@@ -32,9 +32,26 @@ else
 
 @code {
     private Video[] videos;
+    private string username; 
 
     protected override async Task OnInitializedAsync()
     {
         videos = await Http.GetFromJsonAsync<Video[]>("api/videos/betatalks");
+        username = await GetUsername();
+    }
+
+    private async Task<string> GetUsername() 
+    {
+        var response = await Http.GetFromJsonAsync<UserInfo>("/.auth/me");
+
+        return response.UserDetails;
+    }
+
+    public class UserInfo
+    {
+        public string IdentityProvider{get;set;}
+        public string UserId{get;set;}
+        public string UserDetails{get;set;}
+        public string UserRoles {get;set;}
     }
 }
