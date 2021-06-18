@@ -17,7 +17,7 @@ namespace Betatalks.SWA.API
         [FunctionName(nameof(GetVideos))]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "videos/{partitionKey}")] HttpRequest req,
-            [Table("Videos")] CloudTable cloudTable, string partitionKey, ILogger log)
+            [Table("Videos", Connection = "StorageConnectionString")] CloudTable cloudTable, string partitionKey, ILogger log)
         {
             var videos = new List<VideoEntity>();
             TableQuerySegment<VideoEntity> querySegment = null;
