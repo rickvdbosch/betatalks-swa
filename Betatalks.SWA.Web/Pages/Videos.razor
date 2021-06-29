@@ -51,14 +51,19 @@ else
     {
         var response = await Http.GetFromJsonAsync<UserInfo>("/.auth/me");
 
-        return response.UserDetails;
+        return response.clientPrincipal.userDetails;
     }
 
     public class UserInfo
     {
-        public string IdentityProvider{get;set;}
-        public string UserId{get;set;}
-        public string UserDetails{get;set;}
-        public string UserRoles {get;set;}
+        public ClientPrincipal clientPrincipal { get; set; }
+    }
+
+    public class ClientPrincipal
+    {
+        public string identityProvider{get;set;}
+        public string userId{get;set;}
+        public string userDetails{get;set;}
+        public string[] userRoles {get;set;}
     }
 }
