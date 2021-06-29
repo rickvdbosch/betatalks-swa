@@ -1,4 +1,5 @@
 ﻿@inherits LayoutComponentBase
+@inject HttpClient Http
 
 <div class="page">
     <div class="sidebar">
@@ -7,7 +8,12 @@
 
     <div class="main">
         <div class="top-row px-4">
-            <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
+            @if (!string.IsNullOrEmpty(username))
+            {
+                <div style="width: 100%; text-align: right">
+                    <a href="/.auth/logout">Click here to log out @username.</a>
+                </div>
+            }
         </div>
 
         <div class="content px-4">
@@ -15,3 +21,32 @@
         </div>
     </div>
 </div>
+
+@code {
+    private string username;
+
+    protected override async Task OnInitializedAsync()
+    {
+        username = await GetUsername();
+    }
+
+    private async Task<string> GetUsername() 
+    {
+        var response = await Http.GetFromJsonAsync<UserInfo>("/.auth/me");
+
+        return response.clientPrincipal.userDetails;
+    }
+
+    public class UserInfo
+    {
+        public ClientPrincipal clientPrincipal { get; set; }
+    }
+
+    public class ClientPrincipal
+    {
+        public string identityProvider{get;set;}
+        public string userId{get;set;}
+        public string userDetails{get;set;}
+        public string[] userRoles {get;set;}
+    }
+}
