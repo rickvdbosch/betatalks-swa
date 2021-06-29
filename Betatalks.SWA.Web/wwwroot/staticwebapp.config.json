@@ -1,9 +1,18 @@
 {
 	"routes": [
 		{
+			"route": "/login",
+			"allowedRoles": [ "anonymous" ],
+			"rewrite": "/.auth/login/aad"
+		},
+		{
+			"route": "/logout",
+			"redirect": "/.auth/logout"
+		},
+		{
 			"route": "/*",
 			"allowedRoles": [ "authenticated" ]
-		},
+		}
 		//{
 		//	"route": "/images/*",
 		//	"headers": {
@@ -15,14 +24,6 @@
 		//	"methods": [ "PUT", "POST", "PATCH", "DELETE" ],
 		//	"allowedRoles": [ "administrator" ]
 		//},
-		{
-			"route": "/login",
-			"rewrite": "/.auth/login/aad"
-		},
-		{
-			"route": "/logout",
-			"redirect": "/.auth/logout"
-		}
 	],
 	"navigationFallback": {
 		"rewrite": "index.html",
