@@ -1,12 +1,16 @@
-﻿using Microsoft.Azure.Cosmos.Table;
+﻿using System;
+using System.Runtime.Serialization;
+
+using Azure;
+using Azure.Data.Tables;
 
 namespace Betatalks.SWA.API.Entities
 {
-    public class VideoEntity : TableEntity
+    public class VideoEntity : ITableEntity
     {
-        [IgnoreProperty]
+        [IgnoreDataMember]
         public string Name
-        { 
+        {
             get => RowKey;
             set => RowKey = value;
         }
@@ -16,5 +20,10 @@ namespace Betatalks.SWA.API.Entities
         public string Description { get; set; }
 
         public string Url { get; set; }
+
+        public string PartitionKey { get; set; }
+        public string RowKey { get; set; }
+        public DateTimeOffset? Timestamp { get; set; }
+        public ETag ETag { get; set; }
     }
 }
